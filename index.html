@@ -384,7 +384,7 @@
 
     /* NAVBAR & DROPDOWN */
     .navbar { position: fixed; top: 0; left: 0; width: 100%; background: var(--navbar-bg); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 2px solid var(--cloud-puff); box-shadow: var(--shadow-sm); }
-    .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.5rem; }
+    .nav-container { width: 100%; max-width: none; margin: 0; display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0.75rem; }
     .brand-logo { display: flex; align-items: center; gap: 0.75rem; font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
     .nav-avatar-icon { 
       width: 42px; height: 42px; border-radius: 50%; 
@@ -661,7 +661,7 @@
 
     @media (max-width: 520px) {
       .nav-container {
-        padding: 0.65rem 1rem;
+        padding: 0.65rem 0.75rem;
       }
 
       .dropdown-toggle {
