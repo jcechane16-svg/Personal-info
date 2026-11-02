@@ -1095,10 +1095,7 @@
               <source src="https://media.githubusercontent.com/media/jcechane16-svg/Personal-info/main/media/on-bended-knee.mp4" type="video/mp4">
               Your browser does not support HTML video.
             </video>
-            <div class="video-unavailable" id="videoUnavailable" role="status">
-              <span id="videoUnavailableMessage"></span>
-              <a id="videoSearchLink" target="_blank" rel="noopener noreferrer" hidden>Search YouTube for the official video</a>
-            </div>
+            <div class="video-unavailable" id="videoUnavailable" role="status"></div>
           </div>
           <h3 id="currentSongTitle" style="font-size:1.25rem; font-weight:800; color:#FFE08A; margin-top:1rem;">On Bended Knee</h3>
           <p id="currentArtist" style="color:#94a3b8; font-size:0.95rem; margin-bottom:1.25rem;">Boyz II Men</p>
@@ -1137,37 +1134,6 @@
             </div>
           </div>
 
-          <div class="playlist-item" data-title="End of the Road" data-artist="Boyz II Men" data-watch-url="https://www.youtube.com/results?search_query=Boyz+II+Men+End+of+the+Road+official+music+video">
-            <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">End of the Road</h4>
-              <span style="font-size:0.8rem; opacity:0.8;">Boyz II Men</span>
-            </div>
-          </div>
-
-          <div class="playlist-item" data-title="Doin' Just Fine" data-artist="Boyz II Men" data-watch-url="https://www.youtube.com/results?search_query=Boyz+II+Men+Doin%27+Just+Fine+official+music+video">
-            <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">Doin' Just Fine</h4>
-              <span style="font-size:0.8rem; opacity:0.8;">Boyz II Men</span>
-            </div>
-          </div>
-
-          <div class="playlist-item" data-title="Back at One" data-artist="Brian McKnight" data-watch-url="https://www.youtube.com/results?search_query=Brian+McKnight+Back+at+One+official+music+video">
-            <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">Back at One</h4>
-              <span style="font-size:0.8rem; opacity:0.8;">Brian McKnight</span>
-            </div>
-          </div>
-
-          <div class="playlist-item" data-title="I'll Make Love to You" data-artist="Boyz II Men" data-watch-url="https://www.youtube.com/results?search_query=Boyz+II+Men+I%27ll+Make+Love+to+You+official+music+video">
-            <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">I'll Make Love to You</h4>
-              <span style="font-size:0.8rem; opacity:0.8;">Boyz II Men</span>
-            </div>
-          </div>
         </div>
 
       </div>
@@ -1458,8 +1424,6 @@
       // --- VIDEO PLAYLIST ---
       const localSongVideo = document.getElementById('localSongVideo');
       const videoUnavailable = document.getElementById('videoUnavailable');
-      const videoUnavailableMessage = document.getElementById('videoUnavailableMessage');
-      const videoSearchLink = document.getElementById('videoSearchLink');
 
       function selectPlaylistTrack(item) {
         document.querySelectorAll('.playlist-item').forEach(el => el.classList.remove('active'));
@@ -1468,7 +1432,6 @@
         const title = item.getAttribute('data-title');
         const artist = item.getAttribute('data-artist');
         const videoSrc = item.getAttribute('data-video-src');
-        const watchUrl = item.getAttribute('data-watch-url');
         document.getElementById('currentSongTitle').textContent = title;
         document.getElementById('currentArtist').textContent = artist;
 
@@ -1478,11 +1441,7 @@
           localSongVideo.querySelector('source')?.removeAttribute('src');
           localSongVideo.load();
           localSongVideo.hidden = true;
-          videoUnavailableMessage.textContent = watchUrl
-            ? 'A video is not hosted on this site. Search YouTube for the official upload.'
-            : 'A video file has not been added for this song yet.';
-          videoSearchLink.href = watchUrl || '';
-          videoSearchLink.hidden = !watchUrl;
+          videoUnavailable.textContent = 'A video file has not been added for this song yet.';
           videoUnavailable.classList.add('active');
           return;
         }
@@ -1493,14 +1452,12 @@
         localSongVideo.load();
         localSongVideo.hidden = false;
         localSongVideo.setAttribute('aria-label', `${title} by ${artist}`);
-        videoSearchLink.hidden = true;
         videoUnavailable.classList.remove('active');
       }
 
       localSongVideo.addEventListener('error', () => {
         if (localSongVideo.hidden || !localSongVideo.querySelector('source')?.getAttribute('src')) return;
-        videoUnavailableMessage.textContent = 'Could not load this video file. Make sure the media folder is alongside index.html.';
-        videoSearchLink.hidden = true;
+        videoUnavailable.textContent = 'Could not load this video file. Make sure the media folder is alongside index.html.';
         videoUnavailable.classList.add('active');
       });
 
