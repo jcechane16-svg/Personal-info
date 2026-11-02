@@ -1430,7 +1430,9 @@
             const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
             contactEmailFallback.href = `mailto:jcechane16@gmail.com?subject=${subject}&body=${body}`;
             contactEmailFallback.hidden = false;
-            contactStatusMessage.textContent = 'Your message could not be sent. Please try again later or email me directly.';
+            contactStatusMessage.textContent = /activation/i.test(error.message)
+              ? 'One more step: FormSubmit sent an activation email to the site owner. The owner must click its “Activate Form” link before this form can deliver messages.'
+              : 'Your message could not be sent. Please try again later or email me directly.';
             contactStatusIcon.textContent = '!';
           } finally {
             submitButton.disabled = false;
