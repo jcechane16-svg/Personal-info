@@ -1228,9 +1228,11 @@
       <h2 class="section-title">Get In Touch</h2>
       <p class="section-subtitle">Have a project or question? Let's build something great together.</p>
       <div class="contact-container">
-        <form id="contactForm" action="https://formsubmit.co/jcechane16@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="New message from your portfolio">
-          <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="02b193f8-cf42-4cce-a122-d773c54433a6">
+          <input type="hidden" name="subject" value="New message from your portfolio">
+          <input type="hidden" name="from_name" value="Jehan's Portfolio">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
           <div class="form-group">
             <label for="contactName">Your Name</label>
             <input type="text" id="contactName" name="name" class="form-control" placeholder="Enter your full name" required>
@@ -1245,7 +1247,7 @@
           </div>
           <button type="submit" id="contactSubmitBtn" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Message</button>
         </form>
-        <p class="contact-privacy-note">Your name, email, and message are processed by FormSubmit to deliver this contact request.</p>
+        <p class="contact-privacy-note">Your name, email, and message are processed by Web3Forms to deliver this contact request.</p>
       </div>
     </section>
   </main>
@@ -1407,16 +1409,16 @@
             formData.set('name', name);
             formData.set('email', email);
             formData.set('message', message);
-            const response = await fetch('https://formsubmit.co/ajax/jcechane16@gmail.com', {
+            const response = await fetch('https://api.web3forms.com/submit', {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                'Content-Type': 'application/json'
               },
-              body: new URLSearchParams(formData)
+              body: JSON.stringify(Object.fromEntries(formData))
             });
             const result = await response.json();
-            if (!response.ok || (result.success !== true && result.success !== 'true')) {
+            if (!response.ok || result.success !== true) {
               throw new Error(result.message || 'The form service could not accept your message.');
             }
 
@@ -1430,9 +1432,7 @@
             const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
             contactEmailFallback.href = `mailto:jcechane16@gmail.com?subject=${subject}&body=${body}`;
             contactEmailFallback.hidden = false;
-            contactStatusMessage.textContent = /activation/i.test(error.message)
-              ? 'One more step: FormSubmit sent an activation email to the site owner. The owner must click its “Activate Form” link before this form can deliver messages.'
-              : 'Your message could not be sent. Please try again later or email me directly.';
+            contactStatusMessage.textContent = 'Your message could not be sent. Please try again later or email me directly.';
             contactStatusIcon.textContent = '!';
           } finally {
             submitButton.disabled = false;
