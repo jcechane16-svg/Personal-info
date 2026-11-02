@@ -696,6 +696,7 @@
     .form-control { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--cloud-puff); border-radius: var(--radius-sm); font-size: 1rem; background-color: var(--bg-main); color: var(--text-dark); outline: none; }
     .form-control:focus { border-color: var(--morning-breeze); }
     .form-control::placeholder { color: var(--text-muted); opacity: 0.7; }
+    #contactEmailFallback[hidden] { display: none; }
     footer { background: var(--bg-dark); color: var(--text-light); text-align: center; padding: 2.5rem 1.5rem; margin-top: auto; border-top: 2px solid var(--cloud-puff); }
 
     @media (max-width: 1024px) {
@@ -913,7 +914,7 @@
         <div class="about-text">
           <h3>Hello! I'm Jehan Cyrell</h3>
           <p>I'm studying Information Technology at <strong>ICCT Colleges Cainta Campus (Section A001)</strong>. I like learning by making things, especially small software tools and websites that are clear and comfortable to use on a phone.</p>
-          <p><strong>Fitforge</strong> is one of my projects: a mobile-friendly fitness app concept where I explore BMI calculations, saving data locally, and presenting useful information in a simple dashboard.</p>
+          <p><strong>LevelUp Fitness</strong> is my gamified workout tracker project. It helps users explore workout routines, track their progress and hydration, and check reps on-device for supported exercises.</p>
           <p>When I'm away from a project, I enjoy rhythm games like <em>Project Sekai</em>, strategy games such as <em>Anime Vanguards</em> and <em>Anime Adventures</em>, and following <em>Team Liquid PH</em>. I also like customizing my Windows desktop with tools like Rainmeter and Windhawk.</p>
         </div>
       </div>
@@ -927,13 +928,13 @@
       <p class="section-subtitle">A glimpse into my gaming setup, tools, and technical activities</p>
       
       <div class="gallery-grid">
-        <div class="gallery-item lightbox-trigger" data-title="Fitforge Mobile Web App" data-desc="Full-stack mobile-first web app project featuring BMI tracking and health dashboard.">
-          <div class="gallery-item-bg" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80');"></div>
+        <a class="gallery-item" href="https://jcechane16-svg.github.io/levelup-fitness/" target="_blank" rel="noopener noreferrer" aria-label="Open the LevelUp Fitness app in a new tab">
+          <div class="gallery-item-bg" style="background-image: url('https://jcechane16-svg.github.io/levelup-fitness/icons/levelup.svg'); background-size: cover;"></div>
           <div class="gallery-overlay">
-            <div class="gallery-title">Fitforge App</div>
-            <div class="gallery-tag">Mobile Web App Project</div>
+            <div class="gallery-title">LevelUp Fitness</div>
+            <div class="gallery-tag">Gamified Workout Tracker</div>
           </div>
-        </div>
+        </a>
 
         <div class="gallery-item lightbox-trigger" data-title="Project Sekai Rhythm Gaming" data-desc="Mastering rhythm timing and precision mechanics in Project Sekai Colorful Stage.">
           <div class="gallery-item-bg" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80');"></div>
@@ -1227,21 +1228,24 @@
       <h2 class="section-title">Get In Touch</h2>
       <p class="section-subtitle">Have a project or question? Let's build something great together.</p>
       <div class="contact-container">
-        <form id="contactForm">
+        <form id="contactForm" action="https://formsubmit.co/jcechane16@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New message from your portfolio">
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
           <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" name="name" class="form-control" placeholder="Enter your full name" required>
+            <label for="contactName">Your Name</label>
+            <input type="text" id="contactName" name="name" class="form-control" placeholder="Enter your full name" required>
           </div>
           <div class="form-group">
-            <label>Your Email</label>
-            <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
+            <label for="contactEmail">Your Email</label>
+            <input type="email" id="contactEmail" name="email" class="form-control" placeholder="name@example.com" required>
           </div>
           <div class="form-group">
-            <label>Message</label>
-            <textarea name="message" rows="5" class="form-control" placeholder="Write your message here..." required></textarea>
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" name="message" rows="5" class="form-control" placeholder="Write your message here..." required></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+          <button type="submit" id="contactSubmitBtn" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Message</button>
         </form>
+        <p class="contact-privacy-note">Your name, email, and message are processed by FormSubmit to deliver this contact request.</p>
       </div>
     </section>
   </main>
@@ -1255,11 +1259,12 @@
     </div>
   </div>
 
-  <!-- SUCCESS POPUP MODAL -->
+  <!-- CONTACT STATUS POPUP -->
   <div class="status-popup-modal" id="statusPopupModal">
     <div class="status-popup-content">
       <div class="status-popup-icon" style="font-size: 2.2rem;">✓</div>
-      <p class="status-popup-msg">Thank you! Your message has been sent successfully.</p>
+      <p class="status-popup-msg" id="contactStatusMessage" role="status" aria-live="polite"></p>
+      <a id="contactEmailFallback" class="btn btn-secondary" href="mailto:jcechane16@gmail.com" hidden style="width:100%; margin-bottom:0.75rem;">Email me directly instead</a>
       <button class="btn btn-primary" id="statusPopupCloseBtn" style="width: 100%;">Close</button>
     </div>
   </div>
@@ -1378,13 +1383,59 @@
       const contactForm = document.getElementById('contactForm');
       const statusPopupModal = document.getElementById('statusPopupModal');
       const statusPopupCloseBtn = document.getElementById('statusPopupCloseBtn');
+      const contactStatusMessage = document.getElementById('contactStatusMessage');
+      const contactEmailFallback = document.getElementById('contactEmailFallback');
+      const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+      const contactStatusIcon = statusPopupModal?.querySelector('.status-popup-icon');
 
       if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
           e.preventDefault();
-          playSound('win');
-          contactForm.reset();
+          const formData = new FormData(contactForm);
+          const name = String(formData.get('name') || '').trim();
+          const email = String(formData.get('email') || '').trim();
+          const message = String(formData.get('message') || '').trim();
+          const submitButton = contactSubmitBtn;
+          submitButton.disabled = true;
+          submitButton.setAttribute('aria-busy', 'true');
+          contactEmailFallback.hidden = true;
+          contactStatusMessage.textContent = 'Sending your message…';
+          contactStatusIcon.textContent = '…';
           statusPopupModal?.classList.add('active');
+
+          try {
+            formData.set('name', name);
+            formData.set('email', email);
+            formData.set('message', message);
+            const response = await fetch('https://formsubmit.co/ajax/jcechane16@gmail.com', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              },
+              body: new URLSearchParams(formData)
+            });
+            const result = await response.json();
+            if (!response.ok || (result.success !== true && result.success !== 'true')) {
+              throw new Error(result.message || 'The form service could not accept your message.');
+            }
+
+            contactForm.reset();
+            contactStatusMessage.textContent = 'Your message was sent successfully. Thank you for getting in touch!';
+            contactStatusIcon.textContent = '✓';
+            playSound('win');
+          } catch (error) {
+            console.error('Contact form submission failed:', error);
+            const subject = encodeURIComponent('Portfolio contact from website');
+            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+            contactEmailFallback.href = `mailto:jcechane16@gmail.com?subject=${subject}&body=${body}`;
+            contactEmailFallback.hidden = false;
+            contactStatusMessage.textContent = 'Your message could not be sent. Please try again later or email me directly.';
+            contactStatusIcon.textContent = '!';
+          } finally {
+            submitButton.disabled = false;
+            submitButton.removeAttribute('aria-busy');
+          }
         });
       }
 
