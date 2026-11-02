@@ -188,7 +188,14 @@
       box-shadow: 0 0 7px #22d3ee;
     }
     @media (pointer: fine) {
-      html, html * { cursor: none !important; }
+      html, html *, html *::before, html *::after,
+      html::-webkit-scrollbar, html::-webkit-scrollbar-thumb, html::-webkit-scrollbar-track,
+      .playlist-items::-webkit-scrollbar, .playlist-items::-webkit-scrollbar-thumb, .playlist-items::-webkit-scrollbar-track,
+      video::-webkit-media-controls, video::-webkit-media-controls-panel,
+      video::-webkit-media-controls-play-button, video::-webkit-media-controls-timeline,
+      video::-webkit-media-controls-current-time-display, video::-webkit-media-controls-time-remaining-display,
+      video::-webkit-media-controls-mute-button, video::-webkit-media-controls-volume-slider,
+      video::-webkit-media-controls-fullscreen-button { cursor: none !important; }
     }
     @media (pointer: coarse) {
       html, body, a, button, input, textarea, select, .social-link, .playlist-item, .xox-cell, .rps-btn, .game-tab-btn, .dropdown-toggle { cursor: auto; }
