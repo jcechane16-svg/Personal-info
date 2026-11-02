@@ -205,6 +205,7 @@
     a { text-decoration: none; color: inherit; transition: var(--transition); }
     ul { list-style: none; }
     img { max-width: 100%; height: auto; display: block; }
+    :focus-visible { outline: 3px solid #67e8f9; outline-offset: 3px; }
     section { padding: 8rem 1.5rem 5rem 1.5rem; max-width: 1200px; margin: 0 auto; width: 100%; }
 
     .section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; text-align: center; margin-bottom: 0.5rem; color: var(--text-dark); letter-spacing: -0.04em; }
@@ -538,19 +539,16 @@
     .project-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); }
     .project-img-wrapper { height: 210px; background: #0f172a; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .project-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .levelup-project-art { flex-direction: column; gap: 0.6rem; color: #f3f4ef; background: radial-gradient(circle at 75% 20%, rgba(196,243,107,.2), transparent 38%), linear-gradient(135deg, #10120f, #252d20); }
+    .levelup-project-mark { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 24px; background: #c4f36b; color: #19220e; font-size: 2rem; font-weight: 950; box-shadow: 0 12px 30px rgba(0,0,0,.3); }
+    .levelup-project-art span { color: #c4f36b; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.18em; }
     .project-info { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
     .project-info h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 0.5rem; }
     .project-info p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; flex: 1; }
     .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+    .project-links { display: flex; gap: 0.65rem; flex-wrap: wrap; margin: 0 0 1rem; }
+    .project-links .btn { padding: 0.65rem 1rem; font-size: 0.9rem; }
     .tag { background: var(--cloud-puff); color: var(--text-dark); font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 6px; border: 1px solid var(--dewy-blue); }
-
-    /* FITFORGE INTERACTIVE BMI CALCULATOR WIDGET */
-    .bmi-widget { background: var(--bg-main); border-radius: var(--radius-sm); padding: 1.25rem; margin-top: 1rem; border: 1px dashed var(--dewy-blue); }
-    .bmi-widget h4 { font-size: 1rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-dark); text-align: center; }
-    .bmi-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
-    .bmi-input-group label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 2px; }
-    .bmi-input-group input { width: 100%; padding: 0.4rem 0.6rem; border-radius: 6px; border: 1px solid var(--dewy-blue); font-size: 0.85rem; background: var(--bg-card); color: var(--text-dark); }
-    .bmi-res-box { text-align: center; font-weight: 800; font-size: 0.95rem; color: var(--morning-breeze); min-height: 1.5rem; }
 
     /* LIGHTBOX MODAL OVERLAY STYLES */
     .addon-lightbox-modal {
@@ -640,8 +638,9 @@
     .video-unavailable a { color: #67e8f9; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
     .video-unavailable a:hover { color: #a5f3fc; }
     .playlist-items { display: flex; flex-direction: column; gap: 0.75rem; max-height: 380px; overflow-y: auto; }
-    .playlist-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.1rem; background: var(--bg-main); border: 2px solid var(--cloud-puff); border-radius: var(--radius-sm); cursor: pointer; color: var(--text-dark); transition: var(--transition); }
+    .playlist-item { width: 100%; display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.1rem; background: var(--bg-main); border: 2px solid var(--cloud-puff); border-radius: var(--radius-sm); cursor: pointer; color: var(--text-dark); font: inherit; text-align: left; transition: var(--transition); }
     .playlist-item.active { background: var(--morning-breeze); color: #fff; border-color: var(--dewy-blue); }
+    .playlist-track-details { display: block; }
 
     .games-section-wrapper { background: var(--bg-card); padding: 2rem; border-radius: var(--radius-md); border: 2px solid var(--dewy-blue); max-width: 680px; margin: 0 auto; text-align: center; box-shadow: var(--shadow-md); }
     .game-tabs { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -823,7 +822,7 @@
       </a>
       <div class="nav-right-controls">
         <div class="dropdown">
-          <button class="dropdown-toggle" id="dropdownToggleBtn">Explore ▾</button>
+          <button class="dropdown-toggle" id="dropdownToggleBtn" aria-expanded="false" aria-controls="dropdownMenu">Explore ▾</button>
           <div class="dropdown-menu" id="dropdownMenu">
             <a href="#index.html" class="page-link">Home</a>
             <a href="#about.html" class="page-link">About</a>
@@ -861,7 +860,7 @@
           <div class="hero-text">
             <span class="hero-badge">ICCT Colleges Cainta Campus • Section A001</span>
             <h1>Jehan Cyrell M. Echane</h1>
-            <p>An aspiring IT software builder & computer programming student focused on mobile-first web applications, responsive interfaces, VB.NET tools, and custom desktop workflow environments.</p>
+            <p>I'm an IT student who enjoys building practical software and exploring how thoughtful design can make everyday tools easier to use. I'm especially interested in web development, VB.NET, and customizing desktop workflows.</p>
             <div class="btn-group">
               <a href="#projects.html" class="btn btn-primary page-link"><i class="fa-solid fa-code"></i> View My Work</a>
               <a href="#contact.html" class="btn btn-secondary page-link"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
@@ -876,7 +875,7 @@
   <main id="about.html" class="page-view">
     <section>
       <h2 class="section-title">About Me</h2>
-      <p class="section-subtitle">Information Technology / Computer Programming Student & Developer</p>
+      <p class="section-subtitle">A little about what I study, build, and enjoy</p>
       <div class="about-grid">
         <div class="about-photo-frame lightbox-trigger" data-title="Academic Profile" data-desc="Information Technology / Computer Programming student at ICCT Colleges Cainta Campus (Section A001).">
           <div class="about-card-badge">ICCT COLLEGES</div>
@@ -886,9 +885,9 @@
         </div>
         <div class="about-text">
           <h3>Hello! I'm Jehan Cyrell</h3>
-          <p>I am an Information Technology student at <strong>ICCT Colleges Cainta Campus (Section A001)</strong> with a deep passion for building software applications, responsive mobile-first websites, and structured programming tools.</p>
-          <p>My flagship project, <strong>Fitforge</strong>, highlights my dedication to mobile-first web app experiences built with local data storage logic, custom BMI calculations, and seamless multi-device responsiveness.</p>
-          <p>Outside of software engineering, I am an active rhythm gamer enjoying <em>Project Sekai</em>, a strategy player in <em>Anime Vanguards & Anime Adventures</em>, a proud fan supporting <em>Team Liquid PH</em> in esports, and an enthusiast of clean desktop customizations with tools like Rainmeter and Windhawk.</p>
+          <p>I'm studying Information Technology at <strong>ICCT Colleges Cainta Campus (Section A001)</strong>. I like learning by making things, especially small software tools and websites that are clear and comfortable to use on a phone.</p>
+          <p><strong>Fitforge</strong> is one of my projects: a mobile-friendly fitness app concept where I explore BMI calculations, saving data locally, and presenting useful information in a simple dashboard.</p>
+          <p>When I'm away from a project, I enjoy rhythm games like <em>Project Sekai</em>, strategy games such as <em>Anime Vanguards</em> and <em>Anime Adventures</em>, and following <em>Team Liquid PH</em>. I also like customizing my Windows desktop with tools like Rainmeter and Windhawk.</p>
         </div>
       </div>
     </section>
@@ -1016,37 +1015,24 @@
       <p class="section-subtitle">Academic software applications and personal development builds</p>
       <div class="projects-grid">
         
-        <!-- PROJECT 1: FITFORGE -->
+        <!-- PROJECT: LEVELUP FITNESS -->
         <div class="project-card">
-          <div class="project-img-wrapper">
-            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="Fitforge Project">
+          <div class="project-img-wrapper levelup-project-art" role="img" aria-label="LevelUp Fitness app branding">
+            <div class="levelup-project-mark" aria-hidden="true">L+</div>
+            <span>TRAIN • TRACK • LEVEL UP</span>
           </div>
           <div class="project-info">
-            <h3>Fitforge Web Application</h3>
-            <p>A mobile-first web app built for fitness tracking, local database logic, personalized UI settings, and health metrics calculation.</p>
-
-            <!-- INTERACTIVE FITFORGE WIDGET DEMO -->
-            <div class="bmi-widget">
-              <h4><i class="fa-solid fa-calculator"></i> Fitforge Live BMI Calculator</h4>
-              <div class="bmi-inputs">
-                <div class="bmi-input-group">
-                  <label>Weight (kg)</label>
-                  <input type="number" id="fitWeight" placeholder="e.g. 65" value="65">
-                </div>
-                <div class="bmi-input-group">
-                  <label>Height (cm)</label>
-                  <input type="number" id="fitHeight" placeholder="e.g. 170" value="170">
-                </div>
-              </div>
-              <button class="btn btn-primary" id="calcBmiBtn" style="width:100%; padding: 0.4rem; font-size:0.85rem; margin-bottom:0.5rem;">Calculate BMI</button>
-              <div class="bmi-res-box" id="fitBmiResult">BMI: 22.5 (Normal Weight)</div>
+            <h3>LevelUp Fitness</h3>
+            <p>A gamified workout tracker built as an installable offline PWA and Android app. It includes workout routines, favorites, progress and hydration tracking, plus on-device camera rep checks for supported exercises.</p>
+            <div class="project-links">
+              <a class="btn btn-primary" href="https://jcechane16-svg.github.io/levelup-fitness/" target="_blank" rel="noopener noreferrer" aria-label="Open LevelUp Fitness app in a new tab">Open App <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="btn btn-secondary" href="https://github.com/jcechane16-svg/levelup-fitness" target="_blank" rel="noopener noreferrer" aria-label="View LevelUp Fitness source on GitHub in a new tab">View Source <i class="fa-brands fa-github" aria-hidden="true"></i></a>
             </div>
-
-            <div class="project-tags" style="margin-top: 1rem;">
-              <span class="tag">Mobile-First</span>
-              <span class="tag">JavaScript</span>
-              <span class="tag">LocalStorage</span>
-              <span class="tag">Capacitor APK</span>
+            <div class="project-tags">
+              <span class="tag">Progressive Web App</span>
+              <span class="tag">Offline Support</span>
+              <span class="tag">Capacitor</span>
+              <span class="tag">Workout Tracking</span>
             </div>
           </div>
         </div>
@@ -1108,38 +1094,38 @@
           <p id="currentArtist" style="color:#94a3b8; font-size:0.95rem; margin-bottom:1.25rem;">Boyz II Men</p>
         </div>
 
-        <div class="playlist-items" id="playlistItems">
-          <div class="playlist-item active" data-title="On Bended Knee" data-artist="Boyz II Men" data-video-src="https://media.githubusercontent.com/media/jcechane16-svg/Personal-info/main/media/on-bended-knee.mp4">
+        <div class="playlist-items" id="playlistItems" role="group" aria-label="Choose a song">
+          <button type="button" class="playlist-item active" aria-pressed="true" data-title="On Bended Knee" data-artist="Boyz II Men" data-video-src="https://media.githubusercontent.com/media/jcechane16-svg/Personal-info/main/media/on-bended-knee.mp4">
             <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">On Bended Knee</h4>
+            <span class="playlist-track-details">
+              <span style="display:block; font-weight:700; font-size:0.95rem;">On Bended Knee</span>
               <span style="font-size:0.8rem; opacity:0.8;">Boyz II Men</span>
-            </div>
-          </div>
+            </span>
+          </button>
 
-          <div class="playlist-item" data-title="One Last Cry" data-artist="Brian McKnight" data-video-src="media/one-last-cry.mp4">
+          <button type="button" class="playlist-item" aria-pressed="false" data-title="One Last Cry" data-artist="Brian McKnight" data-video-src="media/one-last-cry.mp4">
             <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">One Last Cry</h4>
+            <span class="playlist-track-details">
+              <span style="display:block; font-weight:700; font-size:0.95rem;">One Last Cry</span>
               <span style="font-size:0.8rem; opacity:0.8;">Brian McKnight</span>
-            </div>
-          </div>
+            </span>
+          </button>
 
-          <div class="playlist-item" data-title="Never Make a Promise" data-artist="Dru Hill" data-video-src="media/never-make-a-promise.mp4">
+          <button type="button" class="playlist-item" aria-pressed="false" data-title="Never Make a Promise" data-artist="Dru Hill" data-video-src="media/never-make-a-promise.mp4">
             <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">Never Make a Promise</h4>
+            <span class="playlist-track-details">
+              <span style="display:block; font-weight:700; font-size:0.95rem;">Never Make a Promise</span>
               <span style="font-size:0.8rem; opacity:0.8;">Dru Hill</span>
-            </div>
-          </div>
+            </span>
+          </button>
 
-          <div class="playlist-item" data-title="I Don't Ever Want to See You Again" data-artist="Uncle Sam" data-video-src="media/i-dont-ever-want-to-see-you-again.mp4">
+          <button type="button" class="playlist-item" aria-pressed="false" data-title="I Don't Ever Want to See You Again" data-artist="Uncle Sam" data-video-src="media/i-dont-ever-want-to-see-you-again.mp4">
             <span style="font-size:1.2rem;">🎵</span>
-            <div>
-              <h4 style="font-weight:700; font-size:0.95rem;">I Don't Ever Want to See You Again</h4>
+            <span class="playlist-track-details">
+              <span style="display:block; font-weight:700; font-size:0.95rem;">I Don't Ever Want to See You Again</span>
               <span style="font-size:0.8rem; opacity:0.8;">Uncle Sam</span>
-            </div>
-          </div>
+            </span>
+          </button>
 
         </div>
 
@@ -1374,15 +1360,27 @@
       const dropdownToggleBtn = document.getElementById('dropdownToggleBtn');
       const dropdownMenu = document.getElementById('dropdownMenu');
       if (dropdownToggleBtn && dropdownMenu) {
+        const closeDropdown = (restoreFocus = false) => {
+          const wasOpen = dropdownMenu.classList.contains('show');
+          dropdownMenu.classList.remove('show');
+          dropdownToggleBtn.setAttribute('aria-expanded', 'false');
+          if (restoreFocus && wasOpen) dropdownToggleBtn.focus();
+        };
+
         dropdownToggleBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           playSound('click');
-          dropdownMenu.classList.toggle('show');
+          const isOpen = !dropdownMenu.classList.contains('show');
+          dropdownMenu.classList.toggle('show', isOpen);
+          dropdownToggleBtn.setAttribute('aria-expanded', String(isOpen));
         });
         dropdownMenu.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', () => dropdownMenu.classList.remove('show'));
+          link.addEventListener('click', () => closeDropdown());
         });
-        window.addEventListener('click', () => dropdownMenu.classList.remove('show'));
+        window.addEventListener('click', () => closeDropdown());
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeDropdown(true);
+        });
       }
 
       // --- LOW-LATENCY CUSTOM CURSOR ---
@@ -1408,33 +1406,17 @@
         localStorage.setItem('jehan_theme', isDark ? 'dark' : 'light');
       });
 
-      // --- FITFORGE BMI CALCULATOR ---
-      const calcBmiBtn = document.getElementById('calcBmiBtn');
-      calcBmiBtn?.addEventListener('click', () => {
-        playSound('click');
-        const weight = parseFloat(document.getElementById('fitWeight').value);
-        const heightCm = parseFloat(document.getElementById('fitHeight').value);
-        const resBox = document.getElementById('fitBmiResult');
-        if (weight > 0 && heightCm > 0) {
-          const heightM = heightCm / 100;
-          const bmi = (weight / (heightM * heightM)).toFixed(1);
-          let status = 'Normal Weight';
-          if (bmi < 18.5) status = 'Underweight';
-          else if (bmi >= 25 && bmi < 29.9) status = 'Overweight';
-          else if (bmi >= 30) status = 'Obese';
-          resBox.textContent = `BMI: ${bmi} (${status})`;
-        } else {
-          resBox.textContent = 'Please enter valid numbers.';
-        }
-      });
-
       // --- VIDEO PLAYLIST ---
       const localSongVideo = document.getElementById('localSongVideo');
       const videoUnavailable = document.getElementById('videoUnavailable');
 
       function selectPlaylistTrack(item) {
-        document.querySelectorAll('.playlist-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.playlist-item').forEach(el => {
+          el.classList.remove('active');
+          el.setAttribute('aria-pressed', 'false');
+        });
         item.classList.add('active');
+        item.setAttribute('aria-pressed', 'true');
 
         const title = item.getAttribute('data-title');
         const artist = item.getAttribute('data-artist');
