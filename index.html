@@ -449,6 +449,29 @@
     .dropdown-menu a:last-child { border-bottom: none; }
     .dropdown-menu a:hover { background-color: var(--buttercup-sky); color: #1E293B; padding-left: 1.25rem; }
     .theme-toggle-btn { background: var(--cloud-puff); border: 2px solid var(--dewy-blue); color: var(--text-dark); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .back-to-top {
+      position: fixed;
+      right: calc(1.25rem + env(safe-area-inset-right, 0px));
+      bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+      z-index: 998;
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 50%;
+      background: var(--morning-breeze);
+      color: #fff;
+      box-shadow: var(--shadow-md);
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+    .back-to-top:hover { transform: translateY(-3px); background: var(--text-dark); }
+    .back-to-top[hidden] { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .back-to-top { transition: none; }
+    }
 
     /* SOCIAL SIDEBAR */
     .social-sidebar { position: fixed; left: 1.25rem; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0.85rem; z-index: 999; background: var(--bg-card); padding: 0.85rem 0.6rem; border-radius: var(--radius-full); box-shadow: var(--shadow-md); border: 2px solid var(--dewy-blue); }
@@ -846,6 +869,10 @@
     <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="social-link discord" title="Discord"><i class="fa-brands fa-discord"></i></a>
     <a href="mailto:jcechane16@gmail.com" class="social-link email" title="Email Me"><i class="fa-solid fa-envelope"></i></a>
   </aside>
+
+  <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top" hidden>
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+  </button>
 
   <!-- PAGE 1: HOME PAGE -->
   <main id="index.html" class="page-view active-page">
@@ -1263,10 +1290,23 @@
       }
 
       window.scrollTo(0, 0);
+      updateBackToTopVisibility();
     }
 
     window.addEventListener('hashchange', navigatePage);
     window.addEventListener('load', navigatePage);
+
+    // --- BACK TO TOP ---
+    const backToTopBtn = document.getElementById('backToTop');
+    function updateBackToTopVisibility() {
+      backToTopBtn.hidden = window.scrollY < 200;
+    }
+    window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+    backToTopBtn.addEventListener('click', () => {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+      backToTopBtn.hidden = true;
+    });
 
     // --- WEB AUDIO SYNTHESIZER ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
